@@ -2,7 +2,8 @@ $(document).ready( function (){
 
 
 
-		var cellWidth = 300 , cellHeight = 300;
+		var cellWidth = 375 , cellHeight = 375, 
+			gridOffset = parseInt($("#grid").css("left"))/2;
 
 		// Setup a grid
 		$(".cell-container").each( function (i, newDiv){
@@ -10,8 +11,6 @@ $(document).ready( function (){
 			x = $(window).width()/2,
 			y = $(window).height()/2,
 			z = 0;
-
-			console.log(x,y,z);
 
 			$(newDiv).css("transform" , "translate3d("+x+"px,"+y+"px,"+z+"px)");
 		});
@@ -46,8 +45,8 @@ $(document).ready( function (){
  		$(window).resize(function(){
  			// resize();
  		})
- 		var anchorPosition = {	"x": $(window).width()/2 - cellWidth/2, 
- 								"y": $(window).height()/2 - cellHeight/2, 
+ 		var anchorPosition = {	"x": $(window).width()/2 - cellWidth/2 - gridOffset, 
+ 								"y":  $(window).height()/2 - cellHeight/2, 
  								"z": 0} ; 
 
  		$('#grid .cell').on("click", function(e){
@@ -61,7 +60,7 @@ $(document).ready( function (){
  					
  					parentCell.toggleClass("active");
  					parentCell.toggleClass("zoom");
- 					console.log("set center")
+ 					console.log("set center "+anchorPosition)
  					setTile(parentCell, anchorPosition);
 
  				}
@@ -113,8 +112,8 @@ $(document).ready( function (){
 		  		 finalDeltaY = (deltaY > yThreshold || deltaY < -yThreshold)? deltaY: Math.floor(deltaY/yThreshold*2)
 		  		 ;
 		  		 // console.log(finalDeltaY,  top)
-		  		 // if ($(".cell.active").length == 0)
-		  		 // 	window.scrollTo (left, top - finalDeltaY)
+		  		 if ($(".cell-container.active").length == 0)
+		  		 	window.scrollTo (left, top - finalDeltaY)
 		  		 lastIndexFingerTip = indexFingerTip;
 
 		  }
