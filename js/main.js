@@ -19,9 +19,9 @@ $(document).ready( function (){
  		function setTile(newDiv, position){
  			console.log(position)
  				var 
- 					x = position.x || $(newDiv).data("x") || 0,
- 					y = position.y || $(newDiv).data("y") || 0,
- 					z = position.z || $(newDiv).data("z") || 0;
+ 					x = (position.x !== undefined)? position.x : $(newDiv).data("x"),
+ 					y = (position.y !== undefined)? position.y : $(newDiv).data("y"),
+ 					z = (position.z !== undefined)? position.z : $(newDiv).data("z");
 
  				// Save prev position
  				$(newDiv).data("prevx", $(newDiv).data("x"));
@@ -32,8 +32,6 @@ $(document).ready( function (){
  				$(newDiv).data("x", x);
  				$(newDiv).data("y", y);
  				$(newDiv).data("z", z);
-
-
  		}
 
 
@@ -57,22 +55,34 @@ $(document).ready( function (){
 					alreadyActive = parentCell.hasClass("active");
  				
  				if (alreadyActive){
-					$('#grid .cell-container').removeClass("active");
- 					$('#grid .cell-container').removeClass("zoom");
- 					
- 					setTile(parentCell, {	"x":parentCell.data("prevx"),
- 											"y":parentCell.data("prevy"),
- 											"z":parentCell.data("prevz")});
+ 					resetTiles(parentCell);
  				}else{
-					$('#grid .cell-container').removeClass("active");
- 					$('#grid .cell-container').removeClass("zoom");
+					resetTiles();
+ 					
  					parentCell.toggleClass("active");
  					parentCell.toggleClass("zoom");
+ 					console.log("set center")
  					setTile(parentCell, anchorPosition);
 
  				}
 				e.preventDefault();
  		});
+
+ 		function resetTiles(active){
+ 			$('#grid .cell-container').each(function(i,e){
+ 				if ($(e).hasClass("active") && $(e) != $(active)){
+ 					$(e).removeClass("active");
+					$(e).removeClass("zoom");
+ 					console.log("reset tile")
+ 					setTile(e, {		"x":$(e).data("prevx"),
+										"y":$(e).data("prevy"),
+										"z":$(e).data("prevz")});
+
+ 					
+ 				}
+
+ 			})
+ 		}
 
 
 
@@ -103,8 +113,8 @@ $(document).ready( function (){
 		  		 finalDeltaY = (deltaY > yThreshold || deltaY < -yThreshold)? deltaY: Math.floor(deltaY/yThreshold*2)
 		  		 ;
 		  		 // console.log(finalDeltaY,  top)
-		  		 if ($(".cell.active").length == 0)
-		  		 window.scrollTo (left, top - finalDeltaY)
+		  		 // if ($(".cell.active").length == 0)
+		  		 // 	window.scrollTo (left, top - finalDeltaY)
 		  		 lastIndexFingerTip = indexFingerTip;
 
 		  }
