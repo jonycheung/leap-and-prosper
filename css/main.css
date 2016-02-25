@@ -24,6 +24,8 @@ html {
   .grid :focus .front {
     outline: #F00 10px solid;
     box-shadow: 10px 10px 5px #888888; }
+  .grid .cell-container {
+    transition: 0.4s; }
   .grid .cell {
     width: 350px;
     height: 400px;

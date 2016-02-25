@@ -29,15 +29,32 @@
 <script>
 	$(document).ready( function (){
 		// Setup a grid
-		var cellsPerRow = Math.floor($(document).width()/450);
 		for(var i = 0; i < 300; i++){
 			var newDiv = $(".cell-container").first().clone(),
-				x =  450 * (i % cellsPerRow),
-				y =  400 * Math.floor(i/cellsPerRow),
-				z =  0;
+				x = $(window).width()/2,
+				y = $(window).height()/2,
+				z = 0
+				;
 			$(newDiv).css("transform" , "translate3d("+x+"px,"+y+"px,"+z+"px)");
 			$('#grid').append(newDiv);
  		}
+ 		resize();
+
+ 		function resize(){
+ 			
+ 			var cellsPerRow = Math.floor($(window).width()/450);
+ 			$(".cell-container").each( function (i, newDiv){
+ 				var 
+ 					x =  450 * (i % cellsPerRow),
+					y =  400 * Math.floor(i/cellsPerRow),
+					z =  0;
+ 				$(newDiv).css("transform" , "translate3d("+x+"px,"+y+"px,"+z+"px)");
+ 			});
+ 		}
+
+ 		$(window).resize(function(){
+ 			resize();
+ 		})
  		$("body>.cell-container").detach();
 
  		$('#grid .cell').on("click touchstart", function(e){
