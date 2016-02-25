@@ -33,9 +33,7 @@ body{
     transition: 0.4s; }
     .grid .cell-container.active {
       position: absolute;
-      z-index: 1000;
-      left: 0px;
-      top: 50%; }
+      z-index: 1000; }
     .grid .cell-container.zoom .cell {
       transform: scale(1.5); }
   .grid .cell {
