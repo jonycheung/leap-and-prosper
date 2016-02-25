@@ -6,6 +6,9 @@ html{
 }
 body{
   max-width: 1000px;
+	background: url(../imgs/bg.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 :hover,:active,:focus{
@@ -21,7 +24,7 @@ body{
 .grid{
 	width:100%;
 	height:100%;
-	margin-left:700px;
+	margin-left:500px;
 	:focus{
 		.front{
 			outline: #F00 10px solid;
