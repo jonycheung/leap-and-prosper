@@ -49,12 +49,18 @@
  					x =  450 * (i % cellsPerRow) +xOffset,
 					y =  400 * Math.floor(i/cellsPerRow),
 					z =  0;
-				// if ( i % 3 ){
-				// 	x+=100;
-				// 	xOffset += 100;
-				// }
- 				$(newDiv).css("transform" , "translate3d("+x+"px,"+y+"px,"+z+"px)");
+					setTile(newDiv, {"x":x,"y":y,"z":z});
  			});
+ 		}
+ 		function setTile(newDiv, position){
+ 				var 
+ 					x = position.x || $(newDiv).data("x") || 0,
+ 					y = position.y || $(newDiv).data("y") || 0,
+ 					z = position.z || $(newDiv).data("z") || 0;
+ 				$(newDiv).css("transform" , "translate3d("+x+"px,"+y+"px,"+z+"px)");
+ 				$(newDiv).data("x", x+"px");
+ 				$(newDiv).data("y", y+"px");
+ 				$(newDiv).data("z", z+"px");
  		}
 
  		$(window).resize(function(){
@@ -66,10 +72,6 @@
 				$('#grid .cell-container').removeClass("active");
  				$('#grid .cell-container').removeClass("zoom");
  				var parentCell = $(this).parent(".cell-container");
- 				// if (parentCell.hasClass("active")){
- 				// 	//Go into details
-
- 				// }
 
  				parentCell.toggleClass("active");
  				parentCell.toggleClass("zoom");
@@ -106,7 +108,7 @@
 		  		 ;
 		  		 // console.log(finalDeltaY,  top)
 		  		 if ($(".cell.active").length == 0)
-		  		 window.scrollTo (left, top - finalDeltaY )
+		  		 window.scrollTo (left, top - finalDeltaY)
 		  		 lastIndexFingerTip = indexFingerTip;
 
 		  }

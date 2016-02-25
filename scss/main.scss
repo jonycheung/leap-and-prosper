@@ -28,6 +28,8 @@ html{
 		&.active{
 			position:absolute;	
 			z-index:1000;
+			left: 0px;
+			top: 50%;
 		}
 		&.zoom .cell{
 			transform: scale(1.5);
