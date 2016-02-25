@@ -26,6 +26,11 @@ html {
     box-shadow: 10px 10px 5px #888888; }
   .grid .cell-container {
     transition: 0.4s; }
+    .grid .cell-container.active {
+      position: absolute;
+      z-index: 1000; }
+    .grid .cell-container.zoom .cell {
+      transform: scale(1.5); }
   .grid .cell {
     width: 350px;
     height: 400px;
@@ -51,10 +56,10 @@ html {
   transition: 0.6s; }
 
 /*  UPDATED! flip the pane when hovered */
-.flip-container.active .back {
+.cell-container.active .back {
   transform: rotateY(0deg); }
 
-.flip-container.active .front {
+.cell-container.active .front {
   transform: rotateY(180deg); }
 
 /* flip speed goes here */
@@ -80,9 +85,6 @@ html {
 /* back, initially hidden pane */
 .back {
   transform: rotateY(-180deg); }
-
-.zoom {
-  transform: scale(1.2); }
 
 .screen {
   position: fixed;

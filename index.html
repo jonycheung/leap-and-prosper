@@ -59,13 +59,13 @@
 
  		$('#grid .cell').on("click touchstart", function(e){
  			if ($(this).hasClass('active')) {
- 				$('#grid .cell').removeClass("active");
- 				$('#grid .cell').removeClass("zoom");
+ 				$('#grid .cell-container').removeClass("active");
+ 				$('#grid .cell-container').removeClass("zoom");
  			} else {
-				$('#grid .cell').removeClass("active");
- 				$('#grid .cell').removeClass("zoom");
- 				$(this).toggleClass("active");
- 				$(this).toggleClass("zoom");
+				$('#grid .cell-container').removeClass("active");
+ 				$('#grid .cell-container').removeClass("zoom");
+ 				$(this).parent(".cell-container").toggleClass("active");
+ 				$(this).parent(".cell-container").toggleClass("zoom");
  			}
 				e.preventDefault();
  		});
