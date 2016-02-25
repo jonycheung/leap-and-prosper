@@ -1,4 +1,9 @@
 $(document).ready( function (){
+
+
+
+		var cellWidth = 300 , cellHeight = 300;
+
 		// Setup a grid
 		$(".cell-container").each( function (i, newDiv){
 			var 
@@ -43,7 +48,9 @@ $(document).ready( function (){
  		$(window).resize(function(){
  			// resize();
  		})
- 		var anchorPosition = {"x":250, "y":400, "z":0} ; 
+ 		var anchorPosition = {	"x": $(window).width()/2 - cellWidth/2, 
+ 								"y": $(window).height()/2 - cellHeight/2, 
+ 								"z": 0} ; 
 
  		$('#grid .cell').on("click", function(e){
 				var parentCell = $(this).parent(".cell-container"),
@@ -57,7 +64,8 @@ $(document).ready( function (){
  											"y":parentCell.data("prevy"),
  											"z":parentCell.data("prevz")});
  				}else{
- 					
+					$('#grid .cell-container').removeClass("active");
+ 					$('#grid .cell-container').removeClass("zoom");
  					parentCell.toggleClass("active");
  					parentCell.toggleClass("zoom");
  					setTile(parentCell, anchorPosition);
