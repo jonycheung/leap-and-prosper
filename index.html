@@ -30,7 +30,7 @@
 <script>
 	$(document).ready( function (){
 		// Setup a grid
-		for(var i = 0; i < 300; i++){
+		for(var i = 0; i < 7; i++){
 			var newDiv = $(".cell-container").first().clone(),
 				x = $(window).width()/2,
 				y = $(window).height()/2,
@@ -42,13 +42,17 @@
  		resize();
 
  		function resize(){
- 			
- 			var cellsPerRow = Math.floor($(window).width()/450);
+ 			var cellsPerRow = Math.floor($(window).width()/450),
+ 				xOffset = 0;
  			$(".cell-container").each( function (i, newDiv){
  				var 
- 					x =  450 * (i % cellsPerRow),
+ 					x =  450 * (i % cellsPerRow) +xOffset,
 					y =  400 * Math.floor(i/cellsPerRow),
 					z =  0;
+				// if ( i % 3 ){
+				// 	x+=100;
+				// 	xOffset += 100;
+				// }
  				$(newDiv).css("transform" , "translate3d("+x+"px,"+y+"px,"+z+"px)");
  			});
  		}
@@ -123,10 +127,6 @@
 		  });
 
 		}).use('screenPosition', {scale: 0.75});
-
-
-
-		
 		Cursor.create();
 
 	});

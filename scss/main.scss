@@ -48,6 +48,11 @@ html{
 				&:hover{
 					cursor:pointer;
 				}
+
+				-moz-border-radius: 200px;
+				-webkit-border-radius: 200px;
+				border-radius: 200px;
+
 			}
 			.back{
 				background: #e20c77;

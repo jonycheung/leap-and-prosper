@@ -41,7 +41,10 @@ html {
       height: 300px;
       padding: 5%;
       background: #CCC;
-      float: left; }
+      float: left;
+      -moz-border-radius: 200px;
+      -webkit-border-radius: 200px;
+      border-radius: 200px; }
       .grid .cell .flipper .front:hover,
       .grid .cell .flipper .back:hover {
         cursor: pointer; }
