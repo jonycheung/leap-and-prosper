@@ -1,8 +1,12 @@
-html {
+html{
   font-family: "Helvetica Neue";
   padding: 30px;
   overview: hidden;
   max-width: 100%; }
+
+body{
+  max-width: 1000px;
+}
 
 :hover, :active, :focus {
   -webkit-touch-callout: none;
@@ -20,7 +24,8 @@ html {
 
 .grid {
   width: 100%;
-  height: 100%; }
+  height: 100%;
+  margin-left: 500px;}
   .grid :focus .front {
     outline: #F00 10px solid;
     box-shadow: 10px 10px 5px #888888; }
@@ -28,19 +33,21 @@ html {
     transition: 0.4s; }
     .grid .cell-container.active {
       position: absolute;
-      z-index: 1000; }
+      z-index: 1000;
+      left: 0px;
+      top: 50%; }
     .grid .cell-container.zoom .cell {
       transform: scale(1.5); }
   .grid .cell {
-    width: 350px;
-    height: 400px;
+    width: 250px;
+    height: 250px;
     position: absolute; }
     .grid .cell .flipper .front,
     .grid .cell .flipper .back {
-      width: 300px;
-      height: 300px;
+      width: 200px;
+      height: 200px;
       padding: 5%;
-      background: #CCC;
+      /*background: #4d4d4d;*/
       float: left;
       -moz-border-radius: 200px;
       -webkit-border-radius: 200px;
@@ -179,3 +186,85 @@ html {
   background-color: black;
   border: 2px solid black;
   box-shadow: 0 0 15px black; }
+
+
+/*Maitrik Code*/
+
+.rating-circle{
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  margin: auto;
+  margin-top: 17%;
+}
+
+.rating-circle h1{
+  color: white;
+  font-size: 50px;
+  margin-bottom: 0px;
+  text-align: center;
+}
+
+.rating-circle h5{
+  margin: 10px auto;
+  font-size: 25px;
+  color: white;
+  text-align: center;
+}
+
+.title-text{
+  text-align: center;
+  margin-left: -250px;
+  color: #4d4d4d;
+  margin-bottom:
+}
+
+.AA{
+  background: #c1d035;
+  border-bottom: 1px solid white;
+  -webkit-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+-moz-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+}
+.A{
+  background: #00c3bf;
+  border-bottom: 1px solid white;
+  -webkit-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+-moz-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+}
+.B{
+  background: #63b726;
+  border-bottom: 1px solid white;
+  -webkit-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+-moz-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+}
+.C{
+  background: #f04887;
+  border-bottom: 1px solid white;
+  -webkit-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+-moz-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+}
+.D{
+  background: #ffb928;
+  border-bottom: 1px solid white;
+  -webkit-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+-moz-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+}
+.E{
+  background: #fd615d;
+  border-bottom: 1px solid white;
+  -webkit-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+-moz-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+}
+.HR{
+  background: #b61843;
+  border-bottom: 1px solid white;
+  -webkit-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+-moz-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+}
