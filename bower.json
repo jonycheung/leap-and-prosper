@@ -1,0 +1,30 @@
+{
+  "name": "leap-and-prosper",
+  "authors": [
+    "Jony Cheung <jcheung@prosper>"
+  ],
+  "description": "",
+  "main": "index.html",
+  "moduleType": [],
+  "keywords": [
+    "leap",
+    "leapjs",
+    "leap",
+    "motion"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "leapjs": "^0.6.4",
+    "jquery": "^2.2.0",
+    "leapjs-plugins": "^0.1.11"
+  }
+}

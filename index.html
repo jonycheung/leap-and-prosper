@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Grid test</title>
+	<script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
+	<script type="text/javascript" src="js/lib/jquerycollision1.0.2min/jquery-collision.min.js"></script>
+	<script type="text/javascript" src="bower_components/leapjs/leap-0.6.4.js"></script>
+	<script type="text/javascript" src="bower_components/leapjs-plugins/main/leap-plugins-0.1.11.js"></script>
+	<link type="text/css" rel="stylesheet" href="css/main.css" media="all">
+</head>
+<body>
+<div id="grid" class="grid">
+</div>
+<div class="cell-container">
+<a class="flip-container cell" href="#">
+	<div class="flipper">
+		<div class="front">
+			<!-- front content -->
+			Front
+		</div>
+		<div class="back">
+			<!-- back content -->
+			Back
+		</div>
+	</div>
+</a>
+</div>
+
+<script>
+	$(document).ready( function (){
+		// Setup a grid
+		var cellsPerRow = Math.floor($(document).width()/450);
+		for(var i = 0; i < 300; i++){
+			var newDiv = $(".cell-container").first().clone(),
+				x =  450 * (i % cellsPerRow),
+				y =  400 * Math.floor(i/cellsPerRow),
+				z =  0;
+			$(newDiv).css("transform" , "translate3d("+x+"px,"+y+"px,"+z+"px)");
+			$('#grid').append(newDiv);
+ 		}
+ 		$("body>.cell-container").detach();
+
+ 		$('#grid .cell').on("click touchstart", function(e){
+ 			if ($(this).hasClass('active')) {
+ 				$('#grid .cell').removeClass("active");
+ 				$('#grid .cell').removeClass("zoom");
+ 			} else {
+				$('#grid .cell').removeClass("active");
+ 				$('#grid .cell').removeClass("zoom");
+ 				$(this).toggleClass("active");
+ 				$(this).toggleClass("zoom");
+ 			}
+				e.preventDefault();
+ 		});
+	});
+
+</script>
+</body>
+</html>
