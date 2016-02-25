@@ -11,62 +11,80 @@
 </head>
 <body>
 <div id="grid" class="grid">
-</div>
-<div class="cell-container">
-<a class="flip-container cell" href="#">
-	<div class="flipper">
-		<div class="front">
-			<!-- front content -->
-			Front
+<div class="cell-container" data-x="400" data-y="400" data-z="400">
+	<a class="flip-container cell" href="#">
+		<div class="flipper">
+			<div class="front">
+				<!-- front content -->
+				Front
+			</div>
+			<div class="back">
+				<!-- back content -->
+				Back
+			</div>
 		</div>
-		<div class="back">
-			<!-- back content -->
-			Back
-		</div>
-	</div>
-</a>
+	</a>
 </div>
+</div>
+
+
+
 
 <script>
 	$(document).ready( function (){
 		// Setup a grid
-		for(var i = 0; i < 7; i++){
-			var newDiv = $(".cell-container").first().clone(),
-				x = $(window).width()/2,
-				y = $(window).height()/2,
-				z = 0
-				;
-			$(newDiv).css("transform" , "translate3d("+x+"px,"+y+"px,"+z+"px)");
-			$('#grid').append(newDiv);
- 		}
- 		resize();
+		// for(var i = 0; i < 7; i++){
+		// 	var newDiv = $(".cell-container").first().clone(),
+		// 		x = $(window).width()/2,
+		// 		y = $(window).height()/2,
+		// 		z = 0
+		// 		;
+		// 	$(newDiv).css("transform" , "translate3d("+x+"px,"+y+"px,"+z+"px)");
+		// 	$('#grid').append(newDiv);
+ 	// 	}
+ 		// resize();
 
- 		function resize(){
- 			var cellsPerRow = Math.floor($(window).width()/450),
- 				xOffset = 0;
- 			$(".cell-container").each( function (i, newDiv){
- 				var 
- 					x =  450 * (i % cellsPerRow) +xOffset,
-					y =  400 * Math.floor(i/cellsPerRow),
-					z =  0;
-					setTile(newDiv, {"x":x,"y":y,"z":z});
- 			});
- 		}
+ 		// function resize(){
+ 		// 	var cellsPerRow = Math.floor($(window).width()/450),
+ 		// 		xOffset = 0;
+ 		// 	$(".cell-container").each( function (i, newDiv){
+ 		// 		var 
+ 		// 			x =  450 * (i % cellsPerRow) +xOffset,
+			// 		y =  400 * Math.floor(i/cellsPerRow),
+			// 		z =  0;
+			// 		setTile(newDiv, {"x":x,"y":y,"z":z});
+ 		// 	});
+ 		// }
+
  		function setTile(newDiv, position){
  				var 
  					x = position.x || $(newDiv).data("x") || 0,
  					y = position.y || $(newDiv).data("y") || 0,
  					z = position.z || $(newDiv).data("z") || 0;
+
+ 				console.log(x,y,z)
+
  				$(newDiv).css("transform" , "translate3d("+x+"px,"+y+"px,"+z+"px)");
- 				$(newDiv).data("x", x+"px");
- 				$(newDiv).data("y", y+"px");
- 				$(newDiv).data("z", z+"px");
+ 				$(newDiv).data("x", x);
+ 				$(newDiv).data("y", y);
+ 				$(newDiv).data("z", z);
  		}
+
+
+ 		function initTiles(){
+ 			$(".cell-container").each( function (i, newDiv){
+ 				setTile(newDiv,{});
+ 			});
+ 		}
+
+		initTiles();
 
  		$(window).resize(function(){
  			resize();
  		})
- 		$("body>.cell-container").detach();
+
+
+ 		// $("body>.cell-container").detach();
 
  		$('#grid .cell').on("click touchstart", function(e){
 				$('#grid .cell-container').removeClass("active");
