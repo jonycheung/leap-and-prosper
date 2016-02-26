@@ -48,6 +48,10 @@ function init() {
   function addLoanTiles(tile){
     for (var i = 20; i > 0; i--) {
       var newLoan = Tile.clone(tile);
+      console.log('i am here');
+      $.getJSON('../data/data.json', function(data){
+        console.log('data', data);
+      })
       newLoan.element.addClass("loan");
       var newPosition = tile.getPosition();
 

@@ -1,0 +1,12 @@
+{
+  "result": [
+    {
+      "RATINGS_INFO": "AA",
+      "AMOUNT_LEFT": "$2000"
+    },
+    {
+      "RATINGS_INFO": "BB",
+      "AMOUNT_LEFT": "$3000"
+    }
+  ]
+}
