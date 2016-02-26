@@ -13,6 +13,8 @@ $(document).ready( function (){
 			$(newDiv).css("transform" , "translate3d("+x+"px,"+y+"px,"+z+"px)");
 		});
 
+
+
  		function setTile(newDiv, position){
  			console.log(position)
  				var 
@@ -42,6 +44,8 @@ $(document).ready( function (){
 		function resize(){
 			$("body").height($(window).height())
 			$("body").width($(window).width())
+			
+			$("#grid").css("margin-left", $(window).width()/2-750/2)
 		}
 
  		$(window).resize(function(){
