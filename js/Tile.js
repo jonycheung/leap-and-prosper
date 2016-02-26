@@ -5,7 +5,8 @@ var Tile = (function (){
 		xOffset = 0,
 		yOffset = 0,
 		anchorPosition,
-		awayPosition = {"x":-$(window).width()}; 
+		awayPosition = {"x":-$(window).width()},
+		cartPosition = {"x": $(window).width()-xOffset, "y": -200}; 
 
 	function TileClass(e,_x,_y,_z){
 			this.x = _x||0,
@@ -17,6 +18,7 @@ var Tile = (function (){
 			this.element = e,
 			this.zoomed = false,
 			this.flipped = false,
+			this.destroyTimer,
 			self = this;
 		
 		this.setPosition = function(position){
@@ -71,6 +73,15 @@ var Tile = (function (){
 		}
 		this.swipeAway = function(){
 			this.setPosition(awayPosition);
+			destroyTimer = setTimeout($.proxy(function (){
+				this.destroy()
+			}, this), 500)
+		}
+		this.addToCart = function(){
+			this.setPosition(cartPosition);
+			destroyTimer = setTimeout($.proxy(function (){
+				this.destroy()
+			}, this), 500)
 		}
 		
 		this.x = _x || $(this.element).data("x"),
@@ -98,12 +109,11 @@ var Tile = (function (){
 		$(this.element).select(".cell").on("click", $.proxy(clickEvent,this));
 
 		this.destroy = function(){
+			// /console.log("destroyed");
 			$(this.element).remove();
 			delete this;
 		}
-
 		return this;
-
 	}
 
 	setOffset = function(position){

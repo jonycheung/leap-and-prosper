@@ -135,6 +135,13 @@ function init() {
               if (isHorizontal) {
                 if (gesture.direction[0] > 0) {
                   swipeDirection = "right";
+                  clearTimeout(removeTimer);
+                    removeTimer = setTimeout($.proxy(function () {
+                      if (loans.length > 0) {
+                        var loan = loans.pop();
+                        loan.addToCart();
+                      }
+                    }, this), 500);
                 } else {
                   swipeDirection = "left";
                   if (state === FLIP) {
@@ -144,7 +151,7 @@ function init() {
                         var loan = loans.pop();
                         loan.swipeAway();
                       }
-                    }), 500);
+                    }, this), 500);
 
 
                   }
