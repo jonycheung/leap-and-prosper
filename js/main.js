@@ -45,12 +45,12 @@ function init() {
     })
   }
   function addLoanTiles(tile){
-    for (var i = 0; i < 20; i++) {
+    for (var i = 20; i > 0; i--) {
       var newLoan = Tile.clone(tile);
       newLoan.element.addClass("loan");
       var newPosition = tile.getPosition();
 
-      newPosition.y -= i * 10-120;
+      newPosition.y -= i * 7-250;
       newLoan.setPosition(newPosition,.5);
 
       loans.push(newLoan);
