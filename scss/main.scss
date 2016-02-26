@@ -54,9 +54,6 @@ html{
 				transform: scale(2.5);
 			}
 		}
-		&.zoom:not(.loan){
-			display:none;
-		}
 		&.hide{
 			opacity: 0;
 		}
@@ -282,7 +279,7 @@ html{
 
 .AA{
 	  background: #c1d035;
-	  border: 3px solid #e6e6e6;
+		border: 1px solid #e6e6e6;
 	  -webkit-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.10);
 		-moz-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.10);
 	 	box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.10);
@@ -339,6 +336,37 @@ box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.10);
 	&:last-child{
 		.AA{
 			border: none;
+		}
+	}
+}
+
+
+.flip{
+	.flip-container {
+		.flipper {
+			.back{
+				&.AA{
+					border: 1px solid #e6e6e6;
+				}
+				&.A{
+					border: 1px solid #e6e6e6;
+				}
+				&.B{
+					border: 1px solid #e6e6e6;
+				}
+				&.C{
+					border: 1px solid #e6e6e6;
+				}
+				&.D{
+					border: 1px solid #e6e6e6;
+				}
+				&.E{
+					border: 1px solid #e6e6e6;
+				}
+				&.HR{
+					border: 1px solid #e6e6e6;
+				}
+			}
 		}
 	}
 }
