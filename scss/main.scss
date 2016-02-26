@@ -169,9 +169,9 @@ html{
 		color: white;
 		padding:0;
 		margin:0;
-	
+
 	}
-	opacity:0;	
+	opacity:0;
 }
 .zoom .additional-info{
 	opacity:1;
@@ -180,6 +180,20 @@ html{
 }
 
 
+.cart{
+	margin-left: 1000px;
+	display: inline-block;
+	margin-bottom: 25px;
+	height:50px;
+	width:50px;
+	background: url(../imgs/cart.png) center center;
+  	background-size: cover;
+  	background-repeat: no-repeat;
+		h3{
+    margin-top: 50px;
+    width: 100px;
+		}
+}
 
 
 
@@ -190,50 +204,50 @@ html{
 }
 
 .AA{
-  background: #c1d035;
-  border: 1px solid white;
-  -webkit-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
-	-moz-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
- 	box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+	  background: #c1d035;
+	  border: 3px solid #e6e6e6;
+	  -webkit-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+		-moz-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
+	 	box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
 }
 .A{
   background: #00c3bf;
-  border: 1px solid white;
+  border: 3px solid #e6e6e6;
   -webkit-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
 -moz-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
 box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
 }
 .B{
   background: #63b726;
-  border: 1px solid white;
+  border: 3px solid #e6e6e6;
   -webkit-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
 -moz-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
 box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
 }
 .C{
   background: #f04887;
-  border: 1px solid white;
+  border: 3px solid #e6e6e6;
   -webkit-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
 -moz-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
 box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
 }
 .D{
   background: #ffb928;
-  border: 1px solid white;
+  border: 3px solid #e6e6e6;
   -webkit-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
 -moz-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
 box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
 }
 .E{
   background: #fd615d;
-  border: 1px solid white;
+  border: 3px solid #e6e6e6;
   -webkit-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
 -moz-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
 box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
 }
 .HR{
   background: #b61843;
-  border: 1px solid white;
+  border: 3px solid #e6e6e6;
   -webkit-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
 -moz-box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
 box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.71);
