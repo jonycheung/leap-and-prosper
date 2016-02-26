@@ -1,7 +1,6 @@
 var tiles = [];
 var loans = [];
 $(document).ready(function () {
-
   init();
 });
 // States
@@ -10,8 +9,6 @@ var
   ZOOM = "zoom",
   FLIP = "flip";
 var removeTimer;
-
-
 
 function init() {
   // Setup a grid
@@ -28,12 +25,12 @@ function init() {
     $(".cell-container").each(function (i, newDiv) {
       var tile = Tile.create(newDiv);
       tiles.push(tile);
-      Tile.setOffset({
-        "x": $("#grid").offset().left,
-        "y": 0
-      })
       tile.setPosition({});
     });
+	Tile.setOffset({
+	"x": $("#grid").offset().left,
+	"y":0
+	})
   }
   initTiles();
 
@@ -51,10 +48,11 @@ function init() {
     for (var i = 0; i < 20; i++) {
       var newLoan = Tile.clone(tile);
       newLoan.element.addClass("loan");
-      var newPosition = newLoan.getPosition();
+      var newPosition = tile.getPosition();
 
-      newPosition.y -= i * 10;
-      newLoan.setPosition(newPosition);
+      newPosition.y -= i * 10-120;
+      newLoan.setPosition(newPosition,.5);
+
       loans.push(newLoan);
       $("#grid").prepend(newLoan.getElement());
     }
@@ -79,13 +77,10 @@ function init() {
   })
 
   $("#grid").on("Tile:Flip", function (event, tile) {
-    //console.log("Flip "+tile);
     if (loans.length > 0) return;
     addLoanTiles(tile)
-
   })
   $("#grid").on("Tile:Unflip", function (event, tile) {
-    //	console.log("Unflip");
     while (loans.length > 0) {
       var item = loans.pop();
       item.destroy();
@@ -216,6 +211,11 @@ function init() {
 
   $(window).resize(function () {
     resize();
+  })
+
+  $("body").on("click", function(){
+  	resetTiles();
+  	setState(HOME)
   })
 }
 

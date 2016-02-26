@@ -21,7 +21,7 @@ var Tile = (function (){
 			this.destroyTimer,
 			self = this;
 		
-		this.setPosition = function(position){
+		this.setPosition = function(position, delay){
 			// Save prev position
 			this.prevx = this.x;
 			this.prevy = this.y;
@@ -31,7 +31,10 @@ var Tile = (function (){
 			this.y = (position.y !== undefined)? position.y : this.y,
 			this.z = (position.z !== undefined)? position.z : this.z;
 			// Set new position
-			$(this.element).css("transform" , "translate3d("+this.x+"px,"+this.y+"px,"+this.z+"px)");
+			setTimeout($.proxy(function(){
+				$(this.element).css("transform" , "translate3d("+this.x+"px,"+this.y+"px,"+this.z+"px)");
+			},this), delay*1000);
+			
 		}
 		this.getPosition = function(){
 			return {"x":this.x, "y":this.y, "z":this.z}
@@ -82,6 +85,7 @@ var Tile = (function (){
 			destroyTimer = setTimeout($.proxy(function (){
 				this.destroy()
 			}, this), 500)
+			$(this.element).trigger("Tile:AddToCart", [this]);
 		}
 		
 		this.x = _x || $(this.element).data("x"),
@@ -105,6 +109,7 @@ var Tile = (function (){
 				}
 			}
 			e.preventDefault();
+			e.stopPropagation();
  		}
 		$(this.element).select(".cell").on("click", $.proxy(clickEvent,this));
 
@@ -117,14 +122,15 @@ var Tile = (function (){
 	}
 
 	setOffset = function(position){
-		xOffset = position.x;
-		yOffset = position.y;
+		// console.log("setOffset");
+		xOffset = position.x || 0;
+		yOffset = position.y || 0;
 		setAnchorPosition();
 	}
 	setAnchorPosition = function(){
- 		anchorPosition = {	"x": $(window).width()/2 - cellWidth/2 - xOffset, 
-							"y":  $(window).height()/2 - yOffset, 
-							"z": 0} ;
+ 		anchorPosition = {	"x":  $(window).width()/2 - cellWidth/3 - xOffset, 
+							"y":  $(window).height()/2 - yOffset - cellHeight/1.5, 
+							"z":  0} ;
 	}
 
 	return {
@@ -133,9 +139,12 @@ var Tile = (function (){
 		},
 		clone: function(tileInstance){
 			// $(tileInstance.element).css("zIndex", 10005)
-			return new TileClass($(tileInstance.element).clone(), tileInstance.x,tileInstance.y,tileInstance.z);
+			return new TileClass($(tileInstance.element).clone(), -$(window).width(),tileInstance.y,tileInstance.z);
 		},
-		setOffset:setOffset
+		setOffset:setOffset,
+		getOffset: function(){
+			return anchorPosition;
+		}
 	}
 	
 
