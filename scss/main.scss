@@ -154,13 +154,33 @@ html{
 	  text-align: center;
 	}
 	h5{
-	  margin: 10px auto;
+		margin: 10px auto;
 	  font-size: 25px;
-	  color: white;
+	  color: #f6f6f6;
 	  text-align: center;
 	}
-
 }
+
+.add-rating-circle{
+  width: 300px;
+  height: 300px;
+  border-radius: 100%;
+  margin: auto;
+  margin-top: 5%;
+	margin-left: -30px;
+	h1{
+		margin: 25px auto;
+		font-size: 35px;
+		color: white;
+		text-align: center;	}
+	h4{
+		font-size: 15px;
+		color: white;
+		text-align: center;
+		margin: 7px auto;
+	}
+}
+
 .additional-info{
 	p{
 		font-size:11px;
@@ -199,7 +219,7 @@ html{
 
 .title-text{
   text-align: center;
-  margin-left: -1250px;
+  margin-left: -1200px;
   color: #4d4d4d;
 }
 
