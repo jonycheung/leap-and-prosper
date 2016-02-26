@@ -154,10 +154,20 @@ html{
 	  text-align: center;
 	}
 	h5{
-		margin: 10px auto;
+		margin: 0 auto;
 	  font-size: 25px;
 	  color: #f6f6f6;
 	  text-align: center;
+		margin-left: 15px;
+	}
+	h4{
+		font-size: 15px;
+		color: white;
+		text-align: center;
+		margin: 7px auto;
+	}
+	p{
+		font-size: 10px;
 	}
 }
 
@@ -166,30 +176,74 @@ html{
   height: 300px;
   border-radius: 100%;
   margin: auto;
-  margin-top: 5%;
+  margin-top: 3%;
 	margin-left: -30px;
 	h1{
-		margin: 25px auto;
-		font-size: 35px;
 		color: white;
-		text-align: center;	}
+		font-size: 50px;
+		margin-bottom: 0px;
+		text-align: center;
+	}
+	p{
+		text-align:center;
+		line-height:10px;
+		color: #4d4d4d;
+		padding:0;
+		margin:0;
+	}
 	h4{
+		font-size: 15px;
+		color: #4d4d4d;
+		text-align: center;
+		margin: 5px auto;
+	}
+	h2{
 		font-size: 15px;
 		color: white;
 		text-align: center;
-		margin: 7px auto;
+		margin: 2px auto;
+	}
+	h5{
+		font-size: 15px;
+		color:white;
+		text-align: center;
+		margin: 2px auto;
+	}
+	p{
+		font-size: 10px;
+		margin: 5px auto;
 	}
 }
 
 .additional-info{
 	p{
-		font-size:11px;
 		text-align:center;
 		line-height:10px;
-		color: white;
+		color: #4d4d4d;
 		padding:0;
 		margin:0;
-
+	}
+	h4{
+		font-size: 15px;
+		color: #4d4d4d;
+		text-align: center;
+		margin: 2px auto;
+	}
+	h2{
+		font-size: 15px;
+		color: white;
+		text-align: center;
+		margin: -3px auto;
+	}
+	h5{
+		font-size: 15px;
+		color:white;
+		text-align: center;
+		margin: -2px auto;
+	}
+	p{
+		font-size: 10px;
+		margin: 4px auto;
 	}
 	opacity:0;
 }
@@ -276,4 +330,12 @@ box-shadow: -1px 22px 32px -6px rgba(0,0,0,0.10);
 @keyframes hideslow {
     from {opacity: 1;}
     to {opacity: 0;}
+}
+
+.flip{
+	&:last-child{
+		.AA{
+			border: none;
+		}
+	}
 }
