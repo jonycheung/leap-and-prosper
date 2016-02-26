@@ -1,8 +1,5 @@
 $(document).ready( function (){
 
-		$("body").height($(window).height())
-		$("body").width($(window).width())
-
 		var cellWidth = 375 , cellHeight = 375, 
 			gridOffset = $("#grid").offset().left;
 
@@ -42,10 +39,15 @@ $(document).ready( function (){
  		}
 
 		initTiles();
+		function resize(){
+			$("body").height($(window).height())
+			$("body").width($(window).width())
+		}
 
  		$(window).resize(function(){
- 			// resize();
+ 			 resize();
  		})
+ 		 resize();
  		var anchorPosition = {	"x": $(window).width()/2 - cellWidth/2 - gridOffset, 
  								"y":  $(window).height()/2 - cellHeight/2, 
  								"z": 0} ; 
