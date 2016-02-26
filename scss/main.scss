@@ -7,6 +7,10 @@ html{
   	background-repeat: no-repeat;
 }
 
+.body-height{
+	overflow: hidden !important;
+}
+
 :hover,:active,:focus{
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none;   /* Chrome/Safari/Opera */
