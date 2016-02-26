@@ -44,8 +44,10 @@ $(document).ready( function (){
 		function resize(){
 			$("body").height($(window).height())
 			$("body").width($(window).width())
-			
-			$("#grid").css("margin-left", $(window).width()/2-750/2)
+
+
+			$("#grid").css("margin-left", $(window).width()/2-750/2);
+			gridOffset = $("#grid").offset().left;
 		}
 
  		$(window).resize(function(){
