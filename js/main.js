@@ -50,10 +50,9 @@ $(document).ready( function (){
  		 })
 
  		function resetTiles(active){
-
  			for (var i in tiles){
- 				var item = tile[i];
- 				item.resetTile();
+ 				var item = tiles[i];
+ 				item.unzoomTile();
  			}
  		}
 
@@ -92,8 +91,8 @@ $(document).ready( function (){
 		  		 finalDeltaY = (deltaY > yThreshold || deltaY < -yThreshold)? deltaY: Math.floor(deltaY/yThreshold*2)
 		  		 ;
 		  		 // console.log(finalDeltaY,  top)
-		  		 if ($(".cell-container.active").length == 0)
-		  		 	window.scrollTo (left, top - finalDeltaY)
+		  		 // if ($(".cell-container.active").length == 0)
+		  		 window.scrollTo (left, top - finalDeltaY)
 		  		 lastIndexFingerTip = indexFingerTip;
 
 		  }
