@@ -117,7 +117,9 @@ function init() {
 
   function setState(setState){
   	//States: HOME, ZOOM, FLIP
-  	$("body").removeClass(HOME).removeClass(ZOOM).removeClass(FLIP)
+  	$("body").removeClass(HOME);
+  	$("body").removeClass(ZOOM);
+  	$("body").removeClass(FLIP);
   	state = setState;
   	$("body").addClass(state);
   }
