@@ -1,6 +1,7 @@
 $(document).ready( function (){
 
-
+		$("body").height($(window).height())
+		$("body").width($(window).width())
 
 		var cellWidth = 375 , cellHeight = 375, 
 			gridOffset = $("#grid").offset().left;

@@ -3,12 +3,9 @@ html{
 	padding: 30px;
 	overview:hidden;
 	max-width:100%;
-}
-body{
-  max-width: 1000px;
 	background: url(../imgs/bg.jpg);
-  background-size: cover;
-  background-repeat: no-repeat;
+  	background-size: cover;
+  	background-repeat: no-repeat;
 }
 
 :hover,:active,:focus{
@@ -25,6 +22,7 @@ body{
 	width:100%;
 	height:100%;
 	margin-left:20%;
+	display:inline-block;
 	:focus{
 		.front{
 			outline: #F00 10px solid;
