@@ -109,7 +109,7 @@ var Tile = (function (){
 	}
 	setAnchorPosition = function(){
  		anchorPosition = {	"x": $(window).width()/2 - cellWidth/2 - xOffset, 
-							"y":  $(window).height()/2 - cellHeight/2 - yOffset, 
+							"y":  $(window).height()/2 - yOffset, 
 							"z": 0} ;
 	}
 
