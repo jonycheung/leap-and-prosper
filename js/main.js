@@ -1,7 +1,5 @@
+var tiles = [];
 $(document).ready( function (){
-
-		var cellWidth = 375 , cellHeight = 375, 
-			gridOffset = $("#grid").offset().left;
 
 		// Setup a grid
 		$(".cell-container").each( function (i, newDiv){
@@ -9,87 +7,54 @@ $(document).ready( function (){
 			x = $(window).width()/2,
 			y = $(window).height()/2,
 			z = 0;
-
 			$(newDiv).css("transform" , "translate3d("+x+"px,"+y+"px,"+z+"px)");
 		});
 
-
-
- 		function setTile(newDiv, position){
- 			console.log(position)
- 				var 
- 					x = (position.x !== undefined)? position.x : $(newDiv).data("x"),
- 					y = (position.y !== undefined)? position.y : $(newDiv).data("y"),
- 					z = (position.z !== undefined)? position.z : $(newDiv).data("z");
-
- 				// Save prev position
- 				$(newDiv).data("prevx", $(newDiv).data("x"));
- 				$(newDiv).data("prevy", $(newDiv).data("y"));
- 				$(newDiv).data("prevz", $(newDiv).data("z"));
- 				// Set new position
- 				$(newDiv).css("transform" , "translate3d("+x+"px,"+y+"px,"+z+"px)");
- 				$(newDiv).data("x", x);
- 				$(newDiv).data("y", y);
- 				$(newDiv).data("z", z);
- 		}
-
-
  		function initTiles(){
  			$(".cell-container").each( function (i, newDiv){
- 				setTile(newDiv,{});
+ 				var tile= Tile.create(newDiv);
+ 				tiles.push( tile );
+ 				tile.setPosition({});
+ 				tile.setOffset({"x":$("#grid").offset().left, "y":0})
+ 				console.log(tile)
  			});
  		}
-
 		initTiles();
+		
 		function resize(){
 			$("body").height($(window).height())
 			$("body").width($(window).width())
 
 
 			$("#grid").css("margin-left", $(window).width()/2-750/2);
-			gridOffset = $("#grid").offset().left;
+			for (var i in tiles){
+				tiles[i].setOffset({"x":$("#grid").offset().left, "y":0})
+			}
 		}
 
  		$(window).resize(function(){
  			 resize();
  		})
  		 resize();
- 		var anchorPosition = {	"x": $(window).width()/2 - cellWidth/2 - gridOffset, 
- 								"y":  $(window).height()/2 - cellHeight/2, 
- 								"z": 0} ; 
-
- 		$('#grid .cell').on("click", function(e){
-				var parentCell = $(this).parent(".cell-container"),
-					alreadyActive = parentCell.hasClass("active");
- 				
- 				if (alreadyActive){
- 					resetTiles(parentCell);
- 				}else{
-					resetTiles();
- 					
- 					parentCell.toggleClass("active");
- 					parentCell.toggleClass("zoom");
- 					console.log("set center "+anchorPosition)
- 					setTile(parentCell, anchorPosition);
-
- 				}
-				e.preventDefault();
- 		});
+ 		 $("#grid").on("Tile:Zoom", function(event, tile){
+ 		 	for (var i in tiles){
+ 		 		if (tile != tiles[i].getElement()){
+ 		 			tiles[i].unzoomTile();
+ 		 		}
+ 		 	}
+ 		 })
+ 		 $("#grid").on("Tile:Unzoom", function(event, tile){
+			for (var i in tiles){
+ 		 		tiles[i].unzoomTile();
+ 		 	}
+ 		 })
 
  		function resetTiles(active){
- 			$('#grid .cell-container').each(function(i,e){
- 				if ($(e).hasClass("active") && $(e) != $(active)){
- 					$(e).removeClass("active");
-					$(e).removeClass("zoom");
- 					console.log("reset tile")
- 					setTile(e, {		"x":$(e).data("prevx"),
-										"y":$(e).data("prevy"),
-										"z":$(e).data("prevz")});
 
- 					
- 				}
-
- 			})
+ 			for (var i in tiles){
+ 				var item = tile[i];
+ 				item.resetTile();
+ 			}
  		}
 
 

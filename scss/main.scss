@@ -29,12 +29,16 @@ html{
 	}
 	.cell-container{
 		transition: 0.4s;
-		&.active{
+		&.flip{
 			position:absolute;
 			z-index:1000;
 		}
-		&.zoom .cell{
-			transform: scale(1.5);
+		&.zoom {
+			position:absolute;
+			z-index:1000;
+			.cell{
+				transform: scale(1.5);
+			}
 		}
 	}
 	.cell{
