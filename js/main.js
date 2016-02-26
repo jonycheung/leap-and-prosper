@@ -1,4 +1,5 @@
 var tiles = [];
+var loans = [];
 $(document).ready( function (){
 
 		init();
@@ -8,6 +9,7 @@ $(document).ready( function (){
  			HOME = "home",
  			ZOOM = "zoom",
  			FLIP = "flip";
+ 		var removeTimer;
 
  		var state = HOME;
 function init(){
@@ -55,7 +57,7 @@ function init(){
  		 		tiles[i].unhideTile();
  		 	}
  		 })
- 		 var loans = [];
+ 		 
  		 $("#grid").on("Tile:Flip", function(event, tile){
  		 	console.log("Flip "+tile);
  		 	if (loans.length >0 )return;
@@ -85,6 +87,10 @@ function init(){
  				item.unzoomTile();
  				item.unflipTile();
  			}
+ 			while(loans.length > 0){
+ 		 		var item = loans.pop();
+ 		 		item.destroy();
+ 		 	}
  		}
 
  		var lastIndexFingerTip;
@@ -94,17 +100,18 @@ function init(){
 		    frame.gestures.forEach(function(gesture){
 		        switch (gesture.type){
 		          case "keyTap":
-		          case "screenTap":
 		              console.log("Tap Gesture"); //
 		              if (state === ZOOM && (isOverlap("#Cursor", "#grid .zoom", 250) == true )){
 	              		$(".cell-container.zoom").first().trigger('click');
 	              		state = FLIP;
 	              	  }else if (state === ZOOM){
-	              	  	$(".cell-container.zoom").first().trigger('click');
+	              	  	resetTiles();
 	              	  	state = HOME;
 		              }else if (state == HOME && $("#Cursor").collision(".cell").length > 0){
 	              		$("#Cursor").collision(".cell").trigger('click');
 	              		state = ZOOM;
+	              	  }else if (state === FLIP){
+
 		              } else {
 		              	resetTiles();
 		              	state = HOME;
@@ -112,7 +119,7 @@ function init(){
 		              	
 		           break;
 		           case "swipe":
-		           console.log("swipe")
+		           
 		           var isHorizontal = Math.abs(gesture.direction[0]) > Math.abs(gesture.direction[1]);
 			          //Classify as right-left or up-down
 			          if(isHorizontal){
@@ -120,6 +127,18 @@ function init(){
 			                  swipeDirection = "right";
 			              } else {
 			                  swipeDirection = "left";
+			                  if (state === FLIP){
+			                  	console.log("left")
+			                  	clearTimeout(removeTimer);
+			                  	removeTimer = setTimeout($.proxy(function(){
+			                  		if (loans.length > 0){
+			                  		var loan = loans.pop();
+			                  		loan.swipeAway();
+			                  		}	
+			                  	}),500);
+			                  	
+			                  	
+			                  }
 			              }
 			          } else { //vertical
 			              if(gesture.direction[1] > 0){

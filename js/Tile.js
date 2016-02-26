@@ -4,7 +4,8 @@ var Tile = (function (){
 		cellWidth = cellHeight = 375,
 		xOffset = 0,
 		yOffset = 0,
-		anchorPosition; 
+		anchorPosition,
+		awayPosition = {"x":-$(window).width()}; 
 
 	function TileClass(e,_x,_y,_z){
 			this.x = _x||0,
@@ -67,6 +68,9 @@ var Tile = (function (){
 		}
 		this.getElement = function(){
 			return this.element;
+		}
+		this.swipeAway = function(){
+			this.setPosition(awayPosition);
 		}
 		
 		this.x = _x || $(this.element).data("x"),
