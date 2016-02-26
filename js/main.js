@@ -73,23 +73,25 @@ function init() {
         tiles[i].unhideTile();
       }
     }
+    if (loans.length > 0) return;
+    addLoanTiles(tile)
   })
   $("#grid").on("Tile:Unzoom", function (event, tile) {
     for (var i in tiles) {
       tiles[i].unzoomTile();
       tiles[i].unhideTile();
     }
-  })
-
-  $("#grid").on("Tile:Flip", function (event, tile) {
-    if (loans.length > 0) return;
-    addLoanTiles(tile)
-  })
-  $("#grid").on("Tile:Unflip", function (event, tile) {
     while (loans.length > 0) {
       var item = loans.pop();
       item.destroy();
     }
+  })
+
+  $("#grid").on("Tile:Flip", function (event, tile) {
+
+  })
+  $("#grid").on("Tile:Unflip", function (event, tile) {
+
   })
 
   $("#grid").on("Tile:AddToCart", function (event, tile) {
@@ -131,10 +133,10 @@ function init() {
             {
               if (state === ZOOM && (isOverlap("#Cursor", "#grid .zoom", 250) == true)) {
                 $(".cell-container.zoom").first().trigger('click');
-                setState(FLIP)
+                // setState(FLIP)
               } else if (state === ZOOM) {
                 resetTiles();
-                setState(HOME)
+                setState(HOME);
               } else if (state == HOME && $("#Cursor").collision(".cell").length > 0) {
                 $("#Cursor").collision(".cell").trigger('click');
                 setState(ZOOM)
@@ -155,16 +157,18 @@ function init() {
               if (isHorizontal) {
                 if (gesture.direction[0] > 0) {
                   swipeDirection = "right";
-                  clearTimeout(removeTimer);
+                  if (state === ZOOM) {
+                  	clearTimeout(removeTimer);
                     removeTimer = setTimeout($.proxy(function () {
                       if (loans.length > 0) {
                         var loan = loans.shift();
                         loan.addToCart();
                       }
                     }, this), 500);
+                	}
                 } else {
                   swipeDirection = "left";
-                  if (state === FLIP) {
+                  if (state === ZOOM) {
                     clearTimeout(removeTimer);
                     removeTimer = setTimeout($.proxy(function () {
                       if (loans.length > 0) {

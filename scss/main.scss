@@ -54,6 +54,9 @@ html{
 				transform: scale(2.5);
 			}
 		}
+		&.zoom:not(.loan){
+			display:none;
+		}
 		&.hide{
 			opacity: 0;
 		}
