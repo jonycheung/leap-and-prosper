@@ -132,7 +132,7 @@ var Tile = (function (){
 			return new TileClass(e);
 		},
 		clone: function(tileInstance){
-			console.log(tileInstance.getElement())
+			// $(tileInstance.element).css("zIndex", 10005)
 			return new TileClass($(tileInstance.element).clone(), tileInstance.x,tileInstance.y,tileInstance.z);
 		},
 		setOffset:setOffset

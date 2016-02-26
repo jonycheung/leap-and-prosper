@@ -68,14 +68,15 @@ function init() {
   $("#grid").on("Tile:Flip", function (event, tile) {
     //console.log("Flip "+tile);
     if (loans.length > 0) return;
-    for (var i = 20; i > 0; i--) {
+    for (var i = 0; i < 20; i++) {
       var newLoan = Tile.clone(tile);
+      newLoan.element.addClass("loan");
       var newPosition = newLoan.getPosition();
 
       newPosition.y -= i * 10;
       newLoan.setPosition(newPosition);
       loans.push(newLoan);
-      $("#grid").append(newLoan.getElement());
+      $("#grid").prepend(newLoan.getElement());
     }
 
   })
@@ -118,7 +119,7 @@ function init() {
               } else if (state == HOME && $("#Cursor").collision(".cell").length > 0) {
                 $("#Cursor").collision(".cell").trigger('click');
                 state = ZOOM;
-              } else if (state === FLIP) {
+              // } else if (state === FLIP) {
 
               } else {
                 resetTiles();
@@ -138,7 +139,7 @@ function init() {
                   clearTimeout(removeTimer);
                     removeTimer = setTimeout($.proxy(function () {
                       if (loans.length > 0) {
-                        var loan = loans.pop();
+                        var loan = loans.shift();
                         loan.addToCart();
                       }
                     }, this), 500);
@@ -148,7 +149,7 @@ function init() {
                     clearTimeout(removeTimer);
                     removeTimer = setTimeout($.proxy(function () {
                       if (loans.length > 0) {
-                        var loan = loans.pop();
+                        var loan = loans.shift();
                         loan.swipeAway();
                       }
                     }, this), 500);
