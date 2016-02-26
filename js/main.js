@@ -12,10 +12,10 @@ $(document).ready( function (){
 
  		function initTiles(){
  			$(".cell-container").each( function (i, newDiv){
- 				var tile= Tile.create(newDiv);
+ 				var tile = Tile.create(newDiv);
  				tiles.push( tile );
+ 				Tile.setOffset({"x":$("#grid").offset().left, "y":0})
  				tile.setPosition({});
- 				tile.setOffset({"x":$("#grid").offset().left, "y":0})
  			});
  		}
 		initTiles();
@@ -24,17 +24,14 @@ $(document).ready( function (){
 			$("body").height($(window).height())
 			$("body").width($(window).width())
 
-
 			$("#grid").css("margin-left", $(window).width()/2-750/2);
-			for (var i in tiles){
-				tiles[i].setOffset({"x":$("#grid").offset().left, "y":0})
-			}
+			Tile.setOffset({"x":$("#grid").offset().left, "y":0})
 		}
 
  		 resize();
  		 $("#grid").on("Tile:Zoom", function(event, tile){
  		 	for (var i in tiles){
- 		 		if (tile != tiles[i].getElement()){
+ 		 		if (tile.getElement() != tiles[i].getElement()){
  		 			tiles[i].unzoomTile();
  		 			tiles[i].hideTile();
  		 		}else{
@@ -47,6 +44,27 @@ $(document).ready( function (){
  		 		tiles[i].unzoomTile();
  		 		tiles[i].unhideTile();
  		 	}
+ 		 })
+ 		 var loans = [];
+ 		 $("#grid").on("Tile:Flip", function(event, tile){
+ 		 	console.log("Flipped "+tile);
+ 		 	for (var i = 20; i > 0; i--){
+ 		 		var newLoan = Tile.clone(tile.getElement());
+ 		 		var newPosition = newLoan.getPosition();
+ 		 		newPosition.y -= i*10;
+ 		 		newLoan.setPosition(newPosition);
+ 		 		loans.push (newLoan);
+ 		 		$("#grid").append(newLoan.getElement());
+ 		 	}
+
+ 		 })
+		$("#grid").on("Tile:Unflip", function(event, tile){
+ 		 	console.log("Unflip");
+ 		 	while(loans.length > 0){
+ 		 		var item = loans.pop();
+ 		 		item.destroy();
+ 		 	}
+ 		 	console.log(loans)
  		 })
 
  		function resetTiles(){
@@ -65,32 +83,48 @@ $(document).ready( function (){
 		        switch (gesture.type){
 		          case "keyTap":
 		          case "screenTap":
-		              console.log("Tap Gesture");
+		              console.log("Tap Gesture"); //
 		              if ($(".cell-container.zoom").length>0){
-		              	if (isOverlap("#Cursor", "#grid .zoom", 250)== true ){
+		              	if (isOverlap("#Cursor", "#grid .zoom", 250) == true ){
 		              		$(".cell-container.zoom").first().trigger('click');
 		              	}else
 		              		resetTiles();
-		              }else if ($("#Cursor").collision(".cell").length > 0)
-		              	$("#Cursor").collision(".cell").trigger('click');
-		              else
+		              }else if ($("#Cursor").collision(".cell").length > 0){
+		              		console.log($("#Cursor").collision(".cell"))
+		              		$("#Cursor").collision(".cell").trigger('click');
+		              } else
 		              	resetTiles();
-		              break;
+		           break;
+		           case "swipe":
+		           console.log("swipe")
+		           var isHorizontal = Math.abs(gesture.direction[0]) > Math.abs(gesture.direction[1]);
+			          //Classify as right-left or up-down
+			          if(isHorizontal){
+			              if(gesture.direction[0] > 0){
+			                  swipeDirection = "right";
+			              } else {
+			                  swipeDirection = "left";
+			              }
+			          } else { //vertical
+			              if(gesture.direction[1] > 0){
+			                  swipeDirection = "up";
+			              } else {
+			                  swipeDirection = "down";
+			              }                 
+			          }
+			         break;
 		        }
 		    });
 		  }
 
 		  if (frame&&frame.fingers.length){
 		  		var indexFingerTip = frame.fingers[1]&&frame.fingers[1].tipPosition,  // [x,y,z]
-		  		 doc 	= document.documentElement, body = document.body,
-		  		 deltaY = Math.round((indexFingerTip[1]-250)/5),
-		  		 yThreshold = 15,
-		  		 top 	= window.scrollY,
-		  		 left 	= 0,
-		  		 finalDeltaY = (deltaY > yThreshold || deltaY < -yThreshold)? deltaY: Math.floor(deltaY/yThreshold*2)
-		  		 ;
-		  		 // console.log(finalDeltaY,  top)
-		  		 // if ($(".cell-container.active").length == 0)
+		  		 	doc 	= document.documentElement, body = document.body,
+		  		 	deltaY = Math.round((indexFingerTip[1]-250)/5),
+		  		 	yThreshold = 15,
+		  		 	top 	= window.scrollY,
+		  		 	left 	= 0,
+		  		 	finalDeltaY = (deltaY > yThreshold || deltaY < -yThreshold)? deltaY: Math.floor(deltaY/yThreshold*2);
 		  		 window.scrollTo (left, top - finalDeltaY)
 		  		 lastIndexFingerTip = indexFingerTip;
 

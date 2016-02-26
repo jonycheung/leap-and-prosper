@@ -1,4 +1,4 @@
-var Tile = (function () {
+var Tile = (function (){
 	//Singleton
 	var
 		cellWidth = cellHeight = 375,
@@ -7,123 +7,118 @@ var Tile = (function () {
 		anchorPosition; 
 
 	function TileClass(e){
-		var 
-			x = 0,
-			y = 0,
-			z = 0,
-			prevx = 0,
-			prevy = 0,
-			prevz = 0,
-			element = e,
-			zoomed = false,
-			flipped = false
+			this.x = 0,
+			this.y = 0,
+			this.z = 0,
+			this.prevx = 0,
+			this.prevy = 0,
+			this.prevz = 0,
+			this.element = e,
+			this.zoomed = false,
+			this.flipped = false,
 			self = this;
 		
-		function setPosition(position){
+		this.setPosition = function(position){
 			// Save prev position
-			prevx = x;
-			prevy = y;
-			prevz = z;
+			this.prevx = this.x;
+			this.prevy = this.y;
+			this.prevz = this.z;
 			
-			x = (position.x !== undefined)? position.x : x,
-			y = (position.y !== undefined)? position.y : y,
-			z = (position.z !== undefined)? position.z : z;
+			this.x = (position.x !== undefined)? position.x : this.x,
+			this.y = (position.y !== undefined)? position.y : this.y,
+			this.z = (position.z !== undefined)? position.z : this.z;
 			// Set new position
-			$(element).css("transform" , "translate3d("+x+"px,"+y+"px,"+z+"px)");
+			$(this.element).css("transform" , "translate3d("+this.x+"px,"+this.y+"px,"+this.z+"px)");
+		}
+		this.getPosition = function(){
+			return {"x":this.x, "y":this.y, "z":this.z}
 		}
 
-		function zoomTile(){
-			if (zoomed) return;
-			$(element).addClass("zoom");
-			setPosition(anchorPosition);
-			zoomed = true;
+		this.zoomTile = function(){
+			if (this.zoomed) return;
+				$(this.element).addClass("zoom");
+			this.setPosition(anchorPosition);
+			this.zoomed = true;
 		}
 
-		function flipTile(){
-				$(element).addClass("flip");
-				flipped = true;
+		this.flipTile = function(){
+				$(this.element).addClass("flip");
+				this.flipped = true;
 		}
-		function unflipTile(){
-				$(element).removeClass("flip");
-				flipped = false;
+		this.unflipTile = function(){
+				$(this.element).removeClass("flip");
+				this.flipped = false;
 		}
-		function resetTile(){
-			setPosition ({"x":prevx, "y":prevy, "z":prevz});
+		this.resetTile = function(){
+			this.setPosition ({"x":this.prevx, "y":this.prevy, "z":this.prevz});
 		}
 
-		function unzoomTile(){
-			if (!zoomed) return;
-			$(element).removeClass("zoom");
-			setPosition({"x":prevx, "y":prevy, "z":prevz});
-			zoomed = false;
+		this.unzoomTile = function(){
+			if (!this.zoomed) return;
+			$(this.element).removeClass("zoom");
+			this.setPosition({"x":this.prevx, "y":this.prevy, "z":this.prevz});
+			this.zoomed = false;
 		}
-		function hideTile(){
-			$(element).addClass("hide");
+		this.hideTile = function(){
+			$(this.element).addClass("hide");
 		}
-		function unhideTile(){
-			$(element).removeClass("hide");
+		this.unhideTile = function(){
+			$(this.element).removeClass("hide");
+		}
+		this.getElement = function(){
+			return this.element;
 		}
 		
-		x = $(element).data("x"),
-		y = $(element).data("y"),
-		z = $(element).data("z");
+		this.x = $(this.element).data("x"),
+		this.y = $(this.element).data("y"),
+		this.z = $(this.element).data("z");
 		
-		setPosition ({"x":x, "y":y, "z":z})
+		this.setPosition ({"x":this.x, "y":this.y, "z":this.z})
 
-		$(element).select(".cell").on("click", function(e){
-			console.log("zoomed" + zoomed)
-			if (!zoomed){
-				zoomTile();
-				$(element).trigger("Tile:Zoom", [element]);
-			}
-			else{
+		function clickEvent(e){
+			if (!this.zoomed){
+				this.zoomTile();
+				$(this.element).trigger("Tile:Zoom", [this]);
+			}else{
 				//If it's zoomed. let's go in
-				if (flipped){
-					unflipTile();
+				if (this.flipped){
+					this.unflipTile();
+					$(this.element).trigger("Tile:Unflip", [this]);
 				} else {
-					flipTile();
+					this.flipTile();
+					$(this.element).trigger("Tile:Flip", [this]);
 				}
-				$(element).trigger("Tile:Flip", [element]);
 			}
-			
 			e.preventDefault();
- 		});
+ 		}
+		$(this.element).select(".cell").on("click", $.proxy(clickEvent,this));
 
-		return {
-			create: function (e){
+		this.destroy = function(){
+			$(this.element).remove();
+			delete this;
+		}
 
-				return this;
-			},
-			setPosition : setPosition,
-			getElement: function (){
-				return element;
-			},
-			zoomTile: zoomTile,
-			flipTile: flipTile,
-			unflipTile: unflipTile,
-			unzoomTile: unzoomTile,
-			resetTile: resetTile,
-			setOffset: setOffset,
-			hideTile:hideTile,
-			unhideTile:unhideTile
-		} 
+		return this;
 
 	}
 
-	function setOffset(position){
+	setOffset = function(position){
 		xOffset = position.x;
 		yOffset = position.y;
 		setAnchorPosition();
 	}
-	function setAnchorPosition(){
+	setAnchorPosition = function(){
  		anchorPosition = {	"x": $(window).width()/2 - cellWidth/2 - xOffset, 
 							"y":  $(window).height()/2 - cellHeight/2 - yOffset, 
 							"z": 0} ;
 	}
 
 	return {
-		create: function (e){
+		create: function(e){
 			return new TileClass(e);
+		},
+		clone: function(tileInstance){
+			return new TileClass($(tileInstance).clone());
 		},
 		setOffset:setOffset
 	}
