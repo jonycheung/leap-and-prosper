@@ -11,10 +11,11 @@ var
   FLIP = "flip";
 var removeTimer;
 
-var state = HOME;
+
 
 function init() {
   // Setup a grid
+  setState(HOME)
   $(".cell-container").each(function (i, newDiv) {
     var
       x = $(window).width() / 2,
@@ -101,6 +102,13 @@ function init() {
     }
   }
 
+  function setState(setState){
+  	//States: HOME, ZOOM, FLIP
+  	$("body").removeClass(HOME).removeClass(ZOOM).removeClass(FLIP)
+  	state = setState;
+  	$("body").addClass(state);
+  }
+
   var lastIndexFingerTip;
 
   var controller = Leap.loop(function (frame) {
@@ -112,18 +120,18 @@ function init() {
             {
               if (state === ZOOM && (isOverlap("#Cursor", "#grid .zoom", 250) == true)) {
                 $(".cell-container.zoom").first().trigger('click');
-                state = FLIP;
+                setState(FLIP)
               } else if (state === ZOOM) {
                 resetTiles();
-                state = HOME;
+                setState(HOME)
               } else if (state == HOME && $("#Cursor").collision(".cell").length > 0) {
                 $("#Cursor").collision(".cell").trigger('click');
-                state = ZOOM;
+                setState(ZOOM)
               // } else if (state === FLIP) {
 
               } else {
                 resetTiles();
-                state = HOME;
+                setState(HOME)
               }
 
               break;
