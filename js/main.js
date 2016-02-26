@@ -3,7 +3,7 @@ $(document).ready( function (){
 
 
 		var cellWidth = 375 , cellHeight = 375, 
-			gridOffset = parseInt($("#grid").css("left"))/2;
+			gridOffset = $("#grid").offset().left;
 
 		// Setup a grid
 		$(".cell-container").each( function (i, newDiv){
