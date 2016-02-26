@@ -135,17 +135,14 @@ function init() {
           switch (gesture.type) {
           case "keyTap":
             {
-              if (state === ZOOM && (isOverlap("#Cursor", "#grid .zoom", 250) == true)) {
-                $(".cell-container.zoom").first().trigger('click');
-                // setState(FLIP)
+              if (state === ZOOM && (isOverlap("#Cursor", "#grid .zoom.loan", 250) == true)) {
+                $(".cell-container.zoom.loan").last().trigger('click');
               } else if (state === ZOOM) {
                 resetTiles();
                 setState(HOME);
               } else if (state == HOME && $("#Cursor").collision(".cell").length > 0) {
                 $("#Cursor").collision(".cell").trigger('click');
                 setState(ZOOM)
-              // } else if (state === FLIP) {
-
               } else {
                 resetTiles();
                 setState(HOME)
@@ -180,8 +177,6 @@ function init() {
                         loan.swipeAway();
                       }
                     }, this), 500);
-
-
                   }
                 }
               } else { //vertical
