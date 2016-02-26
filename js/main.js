@@ -75,6 +75,7 @@ function init() {
     }
     if (loans.length > 0) return;
     addLoanTiles(tile)
+    setState(ZOOM);
   })
   $("#grid").on("Tile:Unzoom", function (event, tile) {
     for (var i in tiles) {
@@ -117,6 +118,7 @@ function init() {
 
   function setState(setState){
   	//States: HOME, ZOOM, FLIP
+  	console.log(setState)
   	$("body").removeClass(HOME);
   	$("body").removeClass(ZOOM);
   	$("body").removeClass(FLIP);
