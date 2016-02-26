@@ -1,208 +1,223 @@
 var tiles = [];
 var loans = [];
-$(document).ready( function (){
+$(document).ready(function () {
 
-		init();
-	});
- 		// States
- 		var 
- 			HOME = "home",
- 			ZOOM = "zoom",
- 			FLIP = "flip";
- 		var removeTimer;
+  init();
+});
+// States
+var
+  HOME = "home",
+  ZOOM = "zoom",
+  FLIP = "flip";
+var removeTimer;
 
- 		var state = HOME;
-function init(){
-		// Setup a grid
-		$(".cell-container").each( function (i, newDiv){
-			var 
-			x = $(window).width()/2,
-			y = $(window).height()/2,
-			z = 0;
-			$(newDiv).css("transform" , "translate3d("+x+"px,"+y+"px,"+z+"px)");
-		});
+var state = HOME;
 
- 		function initTiles(){
- 			$(".cell-container").each( function (i, newDiv){
- 				var tile = Tile.create(newDiv);
- 				tiles.push( tile );
- 				Tile.setOffset({"x":$("#grid").offset().left, "y":0})
- 				tile.setPosition({});
- 			});
- 		}
-		initTiles();
-		
-		function resize(){
-			$("body").height($(window).height())
-			$("body").width($(window).width())
+function init() {
+  // Setup a grid
+  $(".cell-container").each(function (i, newDiv) {
+    var
+      x = $(window).width() / 2,
+      y = $(window).height() / 2,
+      z = 0;
+    $(newDiv).css("transform", "translate3d(" + x + "px," + y + "px," + z + "px)");
+  });
 
-			$("#grid").css("margin-left", $(window).width()/2-750/2);
-			Tile.setOffset({"x":$("#grid").offset().left, "y":0})
-		}
+  function initTiles() {
+    $(".cell-container").each(function (i, newDiv) {
+      var tile = Tile.create(newDiv);
+      tiles.push(tile);
+      Tile.setOffset({
+        "x": $("#grid").offset().left,
+        "y": 0
+      })
+      tile.setPosition({});
+    });
+  }
+  initTiles();
 
- 		 resize();
- 		 $("#grid").on("Tile:Zoom", function(event, tile){
- 		 	for (var i in tiles){
- 		 		if (tile.getElement() != tiles[i].getElement()){
- 		 			tiles[i].unzoomTile();
- 		 			tiles[i].hideTile();
- 		 		}else{
- 		 			tiles[i].unhideTile();
- 		 		}
- 		 	}
- 		 })
- 		 $("#grid").on("Tile:Unzoom", function(event, tile){
-			for (var i in tiles){
- 		 		tiles[i].unzoomTile();
- 		 		tiles[i].unhideTile();
- 		 	}
- 		 })
- 		 
- 		 $("#grid").on("Tile:Flip", function(event, tile){
- 		 	console.log("Flip "+tile);
- 		 	if (loans.length >0 )return;
- 		 	for (var i = 20; i > 0; i--){
- 		 		var newLoan = Tile.clone(tile);
- 		 		var newPosition = newLoan.getPosition();
- 		 		
- 		 		newPosition.y -= i*10;
- 		 		newLoan.setPosition(newPosition);
- 		 		loans.push(newLoan);
- 		 		$("#grid").append(newLoan.getElement());
- 		 	}
+  function resize() {
+    $("body").height($(window).height())
+    $("body").width($(window).width())
 
- 		 })
-		$("#grid").on("Tile:Unflip", function(event, tile){
- 		 	console.log("Unflip");
- 		 	while(loans.length > 0){
- 		 		var item = loans.pop();
- 		 		item.destroy();
- 		 	}
- 		 })
+    $("#grid").css("margin-left", $(window).width() / 2 - 750 / 2);
+    Tile.setOffset({
+      "x": $("#grid").offset().left,
+      "y": 0
+    })
+  }
 
- 		function resetTiles(){
- 			for (var i in tiles){
- 				var item = tiles[i];
- 				item.unhideTile();
- 				item.unzoomTile();
- 				item.unflipTile();
- 			}
- 			while(loans.length > 0){
- 		 		var item = loans.pop();
- 		 		item.destroy();
- 		 	}
- 		}
+  resize();
+  $("#grid").on("Tile:Zoom", function (event, tile) {
+    for (var i in tiles) {
+      if (tile.getElement() != tiles[i].getElement()) {
+        tiles[i].unzoomTile();
+        tiles[i].hideTile();
+      } else {
+        tiles[i].unhideTile();
+      }
+    }
+  })
+  $("#grid").on("Tile:Unzoom", function (event, tile) {
+    for (var i in tiles) {
+      tiles[i].unzoomTile();
+      tiles[i].unhideTile();
+    }
+  })
 
- 		var lastIndexFingerTip;
+  $("#grid").on("Tile:Flip", function (event, tile) {
+    //console.log("Flip "+tile);
+    if (loans.length > 0) return;
+    for (var i = 20; i > 0; i--) {
+      var newLoan = Tile.clone(tile);
+      var newPosition = newLoan.getPosition();
 
-		var controller = Leap.loop(function(frame){
-		  if(frame.valid && frame.gestures.length > 0){
-		    frame.gestures.forEach(function(gesture){
-		        switch (gesture.type){
-		          case "keyTap":
-		              console.log("Tap Gesture"); //
-		              if (state === ZOOM && (isOverlap("#Cursor", "#grid .zoom", 250) == true )){
-	              		$(".cell-container.zoom").first().trigger('click');
-	              		state = FLIP;
-	              	  }else if (state === ZOOM){
-	              	  	resetTiles();
-	              	  	state = HOME;
-		              }else if (state == HOME && $("#Cursor").collision(".cell").length > 0){
-	              		$("#Cursor").collision(".cell").trigger('click');
-	              		state = ZOOM;
-	              	  }else if (state === FLIP){
+      newPosition.y -= i * 10;
+      newLoan.setPosition(newPosition);
+      loans.push(newLoan);
+      $("#grid").append(newLoan.getElement());
+    }
 
-		              } else {
-		              	resetTiles();
-		              	state = HOME;
-		              }
-		              	
-		           break;
-		           case "swipe":
-		           
-		           var isHorizontal = Math.abs(gesture.direction[0]) > Math.abs(gesture.direction[1]);
-			          //Classify as right-left or up-down
-			          if(isHorizontal){
-			              if(gesture.direction[0] > 0){
-			                  swipeDirection = "right";
-			              } else {
-			                  swipeDirection = "left";
-			                  if (state === FLIP){
-			                  	console.log("left")
-			                  	clearTimeout(removeTimer);
-			                  	removeTimer = setTimeout($.proxy(function(){
-			                  		if (loans.length > 0){
-			                  		var loan = loans.pop();
-			                  		loan.swipeAway();
-			                  		}	
-			                  	}),500);
-			                  	
-			                  	
-			                  }
-			              }
-			          } else { //vertical
-			              if(gesture.direction[1] > 0){
-			                  swipeDirection = "up";
-			              } else {
-			                  swipeDirection = "down";
-			              }                 
-			          }
-			         break;
-		        }
-		    });
-		  }
+  })
+  $("#grid").on("Tile:Unflip", function (event, tile) {
+    //	console.log("Unflip");
+    while (loans.length > 0) {
+      var item = loans.pop();
+      item.destroy();
+    }
+  })
 
-		  if (frame&&frame.fingers.length){
-		  		var indexFingerTip = frame.fingers[1]&&frame.fingers[1].tipPosition,  // [x,y,z]
-		  		 	doc 	= document.documentElement, body = document.body,
-		  		 	deltaY = Math.round((indexFingerTip[1]-250)/5),
-		  		 	yThreshold = 15,
-		  		 	top 	= window.scrollY,
-		  		 	left 	= 0,
-		  		 	finalDeltaY = (deltaY > yThreshold || deltaY < -yThreshold)? deltaY: Math.floor(deltaY/yThreshold*2);
-		  		 window.scrollTo (left, top - finalDeltaY)
-		  		 lastIndexFingerTip = indexFingerTip;
+  function resetTiles() {
+    for (var i in tiles) {
+      var item = tiles[i];
+      item.unhideTile();
+      item.unzoomTile();
+      item.unflipTile();
+    }
+    while (loans.length > 0) {
+      var item = loans.pop();
+      item.destroy();
+    }
+  }
 
-		  }
+  var lastIndexFingerTip;
 
-		  frame.hands.forEach(function(hand, index) {
-		    // console.log(hand.sreenPosition)
-		  });
+  var controller = Leap.loop(function (frame) {
+      if (frame.valid && frame.gestures.length > 0) {
+        frame.gestures.forEach(function (gesture) {
+          console.log(gesture.type);
+          switch (gesture.type) {
+          case "keyTap":
+            {
+              if (state === ZOOM && (isOverlap("#Cursor", "#grid .zoom", 250) == true)) {
+                $(".cell-container.zoom").first().trigger('click');
+                state = FLIP;
+              } else if (state === ZOOM) {
+                resetTiles();
+                state = HOME;
+              } else if (state == HOME && $("#Cursor").collision(".cell").length > 0) {
+                $("#Cursor").collision(".cell").trigger('click');
+                state = ZOOM;
+              } else if (state === FLIP) {
 
-		})
-		.use('screenPosition')
-		.connect()
+              } else {
+                resetTiles();
+                state = HOME;
+              }
+
+              break;
+            }
+          case "swipe":
+            {
+
+              var isHorizontal = Math.abs(gesture.direction[0]) > Math.abs(gesture.direction[1]);
+              //Classify as right-left or up-down
+              if (isHorizontal) {
+                if (gesture.direction[0] > 0) {
+                  swipeDirection = "right";
+                } else {
+                  swipeDirection = "left";
+                  if (state === FLIP) {
+                    clearTimeout(removeTimer);
+                    removeTimer = setTimeout($.proxy(function () {
+                      if (loans.length > 0) {
+                        var loan = loans.pop();
+                        loan.swipeAway();
+                      }
+                    }), 500);
 
 
-		Leap.loop(function(frame) {
-		  frame.hands.forEach(function(hand, index) {
-		    Cursor.setCursor(hand.screenPosition())
-		  });
+                  }
+                }
+              } else { //vertical
+                if (gesture.direction[1] > 0) {
+                  swipeDirection = "up";
+                } else {
+                  swipeDirection = "down";
+                }
+              }
+              break;
+            }
+          }
+        });
+      }
 
-		}).use('screenPosition', {scale: 0.75});
-		Cursor.create();
+      if (frame && frame.fingers.length) {
+        var indexFingerTip = frame.fingers[1] && frame.fingers[1].tipPosition, // [x,y,z]
+          doc = document.documentElement,
+          body = document.body,
+          deltaY = Math.round((indexFingerTip[1] - 250) / 5),
+          yThreshold = 15,
+          top = window.scrollY,
+          left = 0,
+          finalDeltaY = (deltaY > yThreshold || deltaY < -yThreshold) ? deltaY : Math.floor(deltaY / yThreshold * 2);
+        window.scrollTo(left, top - finalDeltaY)
+        lastIndexFingerTip = indexFingerTip;
 
- 		$(window).resize(function(){
- 			 resize();
- 		})
+      }
+
+      frame.hands.forEach(function (hand, index) {
+        // console.log(hand.sreenPosition)
+      });
+
+    })
+    .use('screenPosition')
+    .connect()
+
+
+  Leap.loop(function (frame) {
+    frame.hands.forEach(function (hand, index) {
+      Cursor.setCursor(hand.screenPosition())
+    });
+
+  }).use('screenPosition', {
+    scale: 0.75
+  });
+  Cursor.create();
+
+  $(window).resize(function () {
+    resize();
+  })
 }
 
-function isOverlap(idOne,idTwo, thres){
-        var objOne=$(idOne),
-            objTwo=$(idTwo),
-            offsetOne = objOne.offset(),
-            offsetTwo = objTwo.offset(),
-            threshold = thres || 0,
-            
-            topOne=offsetOne.top-threshold,
-            topTwo=offsetTwo.top,
-            leftOne=offsetOne.left-threshold,
-            leftTwo=offsetTwo.left,
-            widthOne = objOne.width()+threshold,
-            widthTwo = objTwo.width(),
-            heightOne = objOne.height()+threshold,
-            heightTwo = objTwo.height();
-        var leftTop = leftTwo > leftOne && leftTwo < leftOne+widthOne                  && topTwo > topOne && topTwo < topOne+heightOne, 
-            rightTop = leftTwo+widthTwo > leftOne && leftTwo+widthTwo < leftOne+widthOne                  && topTwo > topOne && topTwo < topOne+heightOne,             leftBottom = leftTwo > leftOne && leftTwo < leftOne+widthOne                  && topTwo+heightTwo > topOne && topTwo+heightTwo < topOne+heightOne,             rightBottom = leftTwo+widthTwo > leftOne && leftTwo+widthTwo < leftOne+widthOne                  && topTwo+heightTwo > topOne && topTwo+heightTwo < topOne+heightOne;
-        return leftTop || rightTop || leftBottom || rightBottom;
+function isOverlap(idOne, idTwo, thres) {
+  var objOne = $(idOne),
+    objTwo = $(idTwo),
+    offsetOne = objOne.offset(),
+    offsetTwo = objTwo.offset(),
+    threshold = thres || 0,
+
+    topOne = offsetOne.top - threshold,
+    topTwo = offsetTwo.top,
+    leftOne = offsetOne.left - threshold,
+    leftTwo = offsetTwo.left,
+    widthOne = objOne.width() + threshold,
+    widthTwo = objTwo.width(),
+    heightOne = objOne.height() + threshold,
+    heightTwo = objTwo.height();
+  var leftTop = leftTwo > leftOne && leftTwo < leftOne + widthOne && topTwo > topOne && topTwo < topOne + heightOne,
+    rightTop = leftTwo + widthTwo > leftOne && leftTwo + widthTwo < leftOne + widthOne && topTwo > topOne && topTwo < topOne + heightOne,
+    leftBottom = leftTwo > leftOne && leftTwo < leftOne + widthOne && topTwo + heightTwo > topOne && topTwo + heightTwo < topOne + heightOne,
+    rightBottom = leftTwo + widthTwo > leftOne && leftTwo + widthTwo < leftOne + widthOne && topTwo + heightTwo > topOne && topTwo + heightTwo < topOne + heightOne;
+  return leftTop || rightTop || leftBottom || rightBottom;
 }
