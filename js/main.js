@@ -95,11 +95,17 @@ $(document).ready( function (){
 		        switch (gesture.type){
 		          case "keyTap":
 		              console.log("Key Tap Gesture");
-		              $("#Cursor").collision(".cell").trigger('click');	
+		              if ($("#Cursor").collision(".cell").length > 0)
+		              	$("#Cursor").collision(".cell").trigger('click');	
+		              else
+		              	resetTiles();
 		              break;
 		          case "screenTap":
 		              console.log("Screen Tap Gesture");
-		              $("#Cursor").collision(".cell").trigger('click');
+		              if ($("#Cursor").collision(".cell").length > 0)
+		              	$("#Cursor").collision(".cell").trigger('click');	
+		              else
+		              	resetTiles();
 		              break;
 		        }
 		    });
