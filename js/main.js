@@ -16,7 +16,6 @@ $(document).ready( function (){
  				tiles.push( tile );
  				tile.setPosition({});
  				tile.setOffset({"x":$("#grid").offset().left, "y":0})
- 				console.log(tile)
  			});
  		}
 		initTiles();
@@ -32,31 +31,32 @@ $(document).ready( function (){
 			}
 		}
 
- 		$(window).resize(function(){
- 			 resize();
- 		})
  		 resize();
  		 $("#grid").on("Tile:Zoom", function(event, tile){
  		 	for (var i in tiles){
  		 		if (tile != tiles[i].getElement()){
  		 			tiles[i].unzoomTile();
+ 		 			tiles[i].hideTile();
+ 		 		}else{
+ 		 			tiles[i].unhideTile();
  		 		}
  		 	}
  		 })
  		 $("#grid").on("Tile:Unzoom", function(event, tile){
 			for (var i in tiles){
  		 		tiles[i].unzoomTile();
+ 		 		tiles[i].unhideTile();
  		 	}
  		 })
 
- 		function resetTiles(active){
+ 		function resetTiles(){
  			for (var i in tiles){
  				var item = tiles[i];
+ 				item.unhideTile();
  				item.unzoomTile();
+ 				item.unflipTile();
  			}
  		}
-
-
 
  		var lastIndexFingerTip;
 		var controller = Leap.loop(function(frame){
@@ -64,16 +64,15 @@ $(document).ready( function (){
 		    frame.gestures.forEach(function(gesture){
 		        switch (gesture.type){
 		          case "keyTap":
-		              console.log("Key Tap Gesture");
-		              if ($("#Cursor").collision(".cell").length > 0)
-		              	$("#Cursor").collision(".cell").trigger('click');	
-		              else
-		              	resetTiles();
-		              break;
 		          case "screenTap":
-		              console.log("Screen Tap Gesture");
-		              if ($("#Cursor").collision(".cell").length > 0)
-		              	$("#Cursor").collision(".cell").trigger('click');	
+		              console.log("Tap Gesture");
+		              if ($(".cell-container.zoom").length>0){
+		              	if (isOverlap("#Cursor", "#grid .zoom", 250)== true ){
+		              		$(".cell-container.zoom").first().trigger('click');
+		              	}else
+		              		resetTiles();
+		              }else if ($("#Cursor").collision(".cell").length > 0)
+		              	$("#Cursor").collision(".cell").trigger('click');
 		              else
 		              	resetTiles();
 		              break;
@@ -114,4 +113,29 @@ $(document).ready( function (){
 		}).use('screenPosition', {scale: 0.75});
 		Cursor.create();
 
+ 		$(window).resize(function(){
+ 			 resize();
+ 		})
+
 	});
+
+
+function isOverlap(idOne,idTwo, thres){
+        var objOne=$(idOne),
+            objTwo=$(idTwo),
+            offsetOne = objOne.offset(),
+            offsetTwo = objTwo.offset(),
+            threshold = thres || 0,
+            
+            topOne=offsetOne.top-threshold,
+            topTwo=offsetTwo.top,
+            leftOne=offsetOne.left-threshold,
+            leftTwo=offsetTwo.left,
+            widthOne = objOne.width()+threshold,
+            widthTwo = objTwo.width(),
+            heightOne = objOne.height()+threshold,
+            heightTwo = objTwo.height();
+        var leftTop = leftTwo > leftOne && leftTwo < leftOne+widthOne                  && topTwo > topOne && topTwo < topOne+heightOne, 
+            rightTop = leftTwo+widthTwo > leftOne && leftTwo+widthTwo < leftOne+widthOne                  && topTwo > topOne && topTwo < topOne+heightOne,             leftBottom = leftTwo > leftOne && leftTwo < leftOne+widthOne                  && topTwo+heightTwo > topOne && topTwo+heightTwo < topOne+heightOne,             rightBottom = leftTwo+widthTwo > leftOne && leftTwo+widthTwo < leftOne+widthOne                  && topTwo+heightTwo > topOne && topTwo+heightTwo < topOne+heightOne;
+        return leftTop || rightTop || leftBottom || rightBottom;
+}

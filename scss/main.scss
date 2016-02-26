@@ -40,6 +40,9 @@ html{
 				transform: scale(1.5);
 			}
 		}
+		&.hide{
+			opacity: 0;
+		}
 	}
 	.cell{
 		width: 250px;

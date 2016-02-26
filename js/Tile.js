@@ -57,6 +57,12 @@ var Tile = (function () {
 			setPosition({"x":prevx, "y":prevy, "z":prevz});
 			zoomed = false;
 		}
+		function hideTile(){
+			$(element).addClass("hide");
+		}
+		function unhideTile(){
+			$(element).removeClass("hide");
+		}
 		
 		x = $(element).data("x"),
 		y = $(element).data("y"),
@@ -65,14 +71,19 @@ var Tile = (function () {
 		setPosition ({"x":x, "y":y, "z":z})
 
 		$(element).select(".cell").on("click", function(e){
+			console.log("zoomed" + zoomed)
 			if (!zoomed){
 				zoomTile();
 				$(element).trigger("Tile:Zoom", [element]);
 			}
 			else{
-				unzoomTile();
-				$(element).trigger("Tile:Unzoom", [element]);
-				
+				//If it's zoomed. let's go in
+				if (flipped){
+					unflipTile();
+				} else {
+					flipTile();
+				}
+				$(element).trigger("Tile:Flip", [element]);
 			}
 			
 			e.preventDefault();
@@ -92,7 +103,9 @@ var Tile = (function () {
 			unflipTile: unflipTile,
 			unzoomTile: unzoomTile,
 			resetTile: resetTile,
-			setOffset: setOffset
+			setOffset: setOffset,
+			hideTile:hideTile,
+			unhideTile:unhideTile
 		} 
 
 	}

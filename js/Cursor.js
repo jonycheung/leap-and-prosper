@@ -6,6 +6,7 @@ var Cursor = (function(){
 		,createCursor  = function () {
   			img.src = 'http://www.aminoapps.com/static/bower/emojify.js/images/emoji/black_circle.png';
   			img.style.position = 'absolute';
+  			img.style.zIndex = '10001';
   			img.id = "Cursor";
 			img.onload = function () {
 				$('body').append(img);
