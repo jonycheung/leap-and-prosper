@@ -49,12 +49,15 @@ $(document).ready( function (){
  		 $("#grid").on("Tile:Flip", function(event, tile){
  		 	console.log("Flipped "+tile);
  		 	for (var i = 20; i > 0; i--){
- 		 		var newLoan = Tile.clone(tile.getElement());
+ 		 		
+ 		 		var newLoan = Tile.clone(tile);
  		 		var newPosition = newLoan.getPosition();
+ 		 		
  		 		newPosition.y -= i*10;
  		 		newLoan.setPosition(newPosition);
- 		 		loans.push (newLoan);
+ 		 		loans.push(newLoan);
  		 		$("#grid").append(newLoan.getElement());
+
  		 	}
 
  		 })

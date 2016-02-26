@@ -6,10 +6,10 @@ var Tile = (function (){
 		yOffset = 0,
 		anchorPosition; 
 
-	function TileClass(e){
-			this.x = 0,
-			this.y = 0,
-			this.z = 0,
+	function TileClass(e,_x,_y,_z){
+			this.x = _x||0,
+			this.y = _y||0,
+			this.z = _z||0,
 			this.prevx = 0,
 			this.prevy = 0,
 			this.prevz = 0,
@@ -69,9 +69,9 @@ var Tile = (function (){
 			return this.element;
 		}
 		
-		this.x = $(this.element).data("x"),
-		this.y = $(this.element).data("y"),
-		this.z = $(this.element).data("z");
+		this.x = _x || $(this.element).data("x"),
+		this.y = _y ||  $(this.element).data("y"),
+		this.z = _z || $(this.element).data("z");
 		
 		this.setPosition ({"x":this.x, "y":this.y, "z":this.z})
 
@@ -118,7 +118,8 @@ var Tile = (function (){
 			return new TileClass(e);
 		},
 		clone: function(tileInstance){
-			return new TileClass($(tileInstance).clone());
+			console.log(tileInstance.getElement())
+			return new TileClass($(tileInstance.element).clone(), tileInstance.x,tileInstance.y,tileInstance.z);
 		},
 		setOffset:setOffset
 	}
