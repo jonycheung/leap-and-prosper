@@ -7,7 +7,8 @@ $(document).ready(function () {
 var
   HOME = "home",
   ZOOM = "zoom",
-  FLIP = "flip";
+  FLIP = "flip",
+  cartNum = 0;
 var removeTimer;
 
 function init() {
@@ -58,6 +59,10 @@ function init() {
     }
   }
 
+  function updateCart(num){
+  	$('#itemNumber').html(num);
+  }
+
   resize();
   $("#grid").on("Tile:Zoom", function (event, tile) {
     for (var i in tiles) {
@@ -86,6 +91,14 @@ function init() {
       item.destroy();
     }
   })
+
+  $("#grid").on("Tile:AddToCart", function (event, tile) {
+    cartNum++;
+    updateCart(cartNum);
+  })
+
+
+  updateCart(0);
 
   function resetTiles() {
     for (var i in tiles) {
