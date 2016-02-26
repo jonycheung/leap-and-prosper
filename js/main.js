@@ -47,6 +47,18 @@ function init() {
       "y": 0
     })
   }
+  function addLoanTiles(tile){
+    for (var i = 0; i < 20; i++) {
+      var newLoan = Tile.clone(tile);
+      newLoan.element.addClass("loan");
+      var newPosition = newLoan.getPosition();
+
+      newPosition.y -= i * 10;
+      newLoan.setPosition(newPosition);
+      loans.push(newLoan);
+      $("#grid").prepend(newLoan.getElement());
+    }
+  }
 
   resize();
   $("#grid").on("Tile:Zoom", function (event, tile) {
@@ -69,16 +81,7 @@ function init() {
   $("#grid").on("Tile:Flip", function (event, tile) {
     //console.log("Flip "+tile);
     if (loans.length > 0) return;
-    for (var i = 0; i < 20; i++) {
-      var newLoan = Tile.clone(tile);
-      newLoan.element.addClass("loan");
-      var newPosition = newLoan.getPosition();
-
-      newPosition.y -= i * 10;
-      newLoan.setPosition(newPosition);
-      loans.push(newLoan);
-      $("#grid").prepend(newLoan.getElement());
-    }
+    addLoanTiles(tile)
 
   })
   $("#grid").on("Tile:Unflip", function (event, tile) {
