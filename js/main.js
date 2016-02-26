@@ -1,6 +1,16 @@
 var tiles = [];
 $(document).ready( function (){
 
+		init();
+	});
+ 		// States
+ 		var 
+ 			HOME = "home",
+ 			ZOOM = "zoom",
+ 			FLIP = "flip";
+
+ 		var state = HOME;
+function init(){
 		// Setup a grid
 		$(".cell-container").each( function (i, newDiv){
 			var 
@@ -47,9 +57,9 @@ $(document).ready( function (){
  		 })
  		 var loans = [];
  		 $("#grid").on("Tile:Flip", function(event, tile){
- 		 	console.log("Flipped "+tile);
+ 		 	console.log("Flip "+tile);
+ 		 	if (loans.length >0 )return;
  		 	for (var i = 20; i > 0; i--){
- 		 		
  		 		var newLoan = Tile.clone(tile);
  		 		var newPosition = newLoan.getPosition();
  		 		
@@ -57,7 +67,6 @@ $(document).ready( function (){
  		 		newLoan.setPosition(newPosition);
  		 		loans.push(newLoan);
  		 		$("#grid").append(newLoan.getElement());
-
  		 	}
 
  		 })
@@ -67,7 +76,6 @@ $(document).ready( function (){
  		 		var item = loans.pop();
  		 		item.destroy();
  		 	}
- 		 	console.log(loans)
  		 })
 
  		function resetTiles(){
@@ -80,6 +88,7 @@ $(document).ready( function (){
  		}
 
  		var lastIndexFingerTip;
+
 		var controller = Leap.loop(function(frame){
 		  if(frame.valid && frame.gestures.length > 0){
 		    frame.gestures.forEach(function(gesture){
@@ -87,16 +96,20 @@ $(document).ready( function (){
 		          case "keyTap":
 		          case "screenTap":
 		              console.log("Tap Gesture"); //
-		              if ($(".cell-container.zoom").length>0){
-		              	if (isOverlap("#Cursor", "#grid .zoom", 250) == true ){
-		              		$(".cell-container.zoom").first().trigger('click');
-		              	}else
-		              		resetTiles();
-		              }else if ($("#Cursor").collision(".cell").length > 0){
-		              		console.log($("#Cursor").collision(".cell"))
-		              		$("#Cursor").collision(".cell").trigger('click');
-		              } else
+		              if (state === ZOOM && (isOverlap("#Cursor", "#grid .zoom", 250) == true )){
+	              		$(".cell-container.zoom").first().trigger('click');
+	              		state = FLIP;
+	              	  }else if (state === ZOOM){
+	              	  	$(".cell-container.zoom").first().trigger('click');
+	              	  	state = HOME;
+		              }else if (state == HOME && $("#Cursor").collision(".cell").length > 0){
+	              		$("#Cursor").collision(".cell").trigger('click');
+	              		state = ZOOM;
+		              } else {
 		              	resetTiles();
+		              	state = HOME;
+		              }
+		              	
 		           break;
 		           case "swipe":
 		           console.log("swipe")
@@ -153,9 +166,7 @@ $(document).ready( function (){
  		$(window).resize(function(){
  			 resize();
  		})
-
-	});
-
+}
 
 function isOverlap(idOne,idTwo, thres){
         var objOne=$(idOne),
